@@ -1,0 +1,31 @@
+spring:
+  datasource:
+    url: jdbc:h2:mem:testdb
+    driver-class-name: org.h2.Driver
+    username: sa
+    password: 
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: false
+
+logging:
+  level:
+    com.example: INFO
+    org.axonframework: INFO
+    axon-janitor: DEBUG
+    
+# Axon timeout configuration - very aggressive to trigger timeouts quickly
+axon:
+  timeout:
+    enabled: true
+    # Transaction timeouts (UnitOfWork level) - these will trigger janitor interruptions
+    transaction:
+      event-processor:
+        test-projection:
+          timeout-ms: 5000          # 5 seconds - should interrupt our 15 second sleep
+          warning-threshold-ms: 2000 # 2 seconds
+          warning-interval-ms: 1000  # 1 second
